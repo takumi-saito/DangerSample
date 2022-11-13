@@ -54,6 +54,6 @@ jobs:
         # GITHUB_TOKENがデフォで発行されるのでそれをdangerで利用
         # https://help.github.com/en/articles/virtual-environments-for-github-actions
         run: |
+          echo "$(ls -l ./)"
           danger --dangerfile="./danger_init" --danger_id="danger_message"
-          danger --dangerfile="./danger_git" --danger_id="check_git"
-          danger --dangerfile="./danger_report" --danger_id="check_code"
+
