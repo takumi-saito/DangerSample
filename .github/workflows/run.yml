@@ -3,14 +3,13 @@ on: [push] # トリガー
 
 env:
   GRADLE_KTLINT_TASK: 'ktlint'
-  GRADLE_ANDROID_LINT_TASK: 'lintDevelopDebug'
+  GRADLE_ANDROID_LINT_TASK: 'lintDebug'
   GRADLE_UNIT_TEST_TASK: 'testDevelopDebugUnitTest'
+  DANGER_VERSION: '8.3.1'
 
 jobs:
-  check-job:
-    name: Check PR
+  setup:
     runs-on: ubuntu-latest
-
     steps:
       - name: Check out
         uses: actions/checkout@v2 # ブランチ切り替え。actionsが提供するブランチ切り替えアクション {user名}/{action名}@{version}
@@ -19,5 +18,30 @@ jobs:
         with:
           java-version: '11'
           distribution: 'adopt'
-      - name: Build with Gradle
-        run: ./gradlew assembleDebug
+    build:
+      needs: setup
+      runs-on: ubuntu-latest
+      steps:
+        - name: Build with Gradle
+          run: ./gradlew assembleDebug
+    danger:
+      needs: setup
+      runs-on: ubuntu-latest
+      steps:
+        - name: Setup ruby
+            uses: actions/setup-ruby@v1 # ruby設定用のAction
+            with:
+              ruby-version: '2.6'
+              architecture: 'x64'
+              - name: install danger
+                run: |
+                  gem install bundler
+                  bundle install
+              - name: run ktlintCheck # ktlintCheckを実行
+                run: ./gradlew ktlintCheck
+              - name: run danger
+                env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                # GITHUB_TOKENがデフォで発行されるのでそれをdangerで利用
+                # https://help.github.com/en/articles/virtual-environments-for-github-actions
+                run: danger
