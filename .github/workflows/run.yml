@@ -29,6 +29,12 @@ jobs:
     needs: setup
     runs-on: ubuntu-latest
     steps:
+      - name: debug
+        run: |
+          pwd
+          ls -l
+      - name: Make Gradle executable
+        run: chmod +x ./gradlew
       - name: Build with Gradle
         run: ./gradlew build
 #   danger:
