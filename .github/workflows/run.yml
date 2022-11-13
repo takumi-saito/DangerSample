@@ -25,39 +25,27 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
           restore-keys: |
             ${{ runner.os }}-gradle-
-      - name: debug
-        run: |
-          echo "-- start"
-          echo "$(pwd)"
-          echo "$(ls -l)"
-          echo "--"
-          echo "$(ls -l ~/)"
-          echo "$(ls -l ~)"
-          echo "$(ls -l .)"
-          echo "$(ls -l ./gradlew)"
-          echo "-- end"
-      - name: Make Gradle executable
-        run: chmod +x ./gradlew
       - name: Build with Gradle
         run: ./gradlew build
-#   danger:
-#     needs: setup
-#     runs-on: ubuntu-latest
-#     steps:
-#       - name: Setup ruby
-#         uses: actions/setup-ruby@v1 # ruby設定用のAction
-#         with:
-#           ruby-version: '2.6'
-#           architecture: 'x64'
-#       - name: install danger
-#         run: |
-#           gem install bundler
-#           bundle install
-#       - name: run ktlintCheck # ktlintCheckを実行
-#         run: ./gradlew ktlintCheck
-#       - name: run danger
-#         env:
-#           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#         # GITHUB_TOKENがデフォで発行されるのでそれをdangerで利用
-#         # https://help.github.com/en/articles/virtual-environments-for-github-actions
-#         run: danger
+  danger:
+    needs: setup
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup ruby
+        uses: actions/setup-ruby@v1 # ruby設定用のAction
+        with:
+          ruby-version: '2.6'
+          architecture: 'x64'
+      - name: install danger
+        run: |
+          gem install bundler
+          bundle install
+      - name: run ktlintCheck # ktlintCheckを実行
+        run: ./gradlew ktlintCheck
+      - name: run danger
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        # GITHUB_TOKENがデフォで発行されるのでそれをdangerで利用
+        # https://help.github.com/en/articles/virtual-environments-for-github-actions
+        run: danger
