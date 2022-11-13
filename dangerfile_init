@@ -1,0 +1,19 @@
+# 変更した行以外は指摘しないように
+github.dismiss_out_of_range_messages
+
+# --------------------
+# pr title
+# --------------------
+is_wip = github.pr_title.include?("WIP") || github.pr_title.include?("wip")
+warn('このPRは作業中です') if is_wip
+
+# --------------------
+# base branch
+# --------------------
+is_to_master = github.branch_for_base == 'master'
+is_to_release = github.branch_for_base == 'release'
+is_from_release = github.branch_for_head == 'release'
+is_from_develop = github.branch_for_head.include?("develop")
+
+warn('master へマージできるのは release branch のみ') if is_to_master && !is_from_release
+warn('release へマージできるのは develop branch のみ') if is_to_release && !is_from_develop
