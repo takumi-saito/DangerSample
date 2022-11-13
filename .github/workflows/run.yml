@@ -23,7 +23,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Build with Gradle
-        run: ./gradlew assembleDebug
+        run: ./gradlew build
 #   danger:
 #     needs: setup
 #     runs-on: ubuntu-latest
