@@ -2,7 +2,7 @@ name: learn-github-actions # アクション名
 on: [push] # トリガー
 
 env:
-  GRADLE_KTLINT_TASK: 'ktlint'
+  GRADLE_KTLINT_TASK: 'ktlintCheck'
   GRADLE_ANDROID_LINT_TASK: 'lintDebug'
   GRADLE_UNIT_TEST_TASK: 'testDevelopDebugUnitTest'
   DANGER_VERSION: '8.3.1'
@@ -46,7 +46,7 @@ jobs:
         run: |
           gem install bundler
           bundle install
-      - name: run ktlintCheck # ktlintCheckを実行
+      - name: run $GRADLE_KTLINT_TASK # ktlintCheckを実行
         run: ./gradlew ktlintCheck
       - name: run danger
         env:
