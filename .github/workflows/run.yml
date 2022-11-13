@@ -56,5 +56,5 @@ jobs:
         # https://help.github.com/en/articles/virtual-environments-for-github-actions
         run: |
           echo "$(ls -l ./)"
-          danger --dangerfile="./report.danger" --danger_id="danger_report --remove-previous-comments --fail-on-errors=true
+          danger --dangerfile="./report.danger" --danger_id="danger_report" --remove-previous-comments --fail-on-errors=true
 
