@@ -35,6 +35,8 @@ jobs:
           echo "$(pwd)"
           echo "$(ls -l)"
           echo "--"
+          echo "$(ls -l ~/)"
+          echo "$(ls -l ~)"
           echo "$(ls -l .)"
           echo "$(ls -l ./gradlew)"
           echo "-- end"
