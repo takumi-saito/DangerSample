@@ -31,8 +31,10 @@ jobs:
     steps:
       - name: debug
         run: |
+          echo "-- start"
           echo "$(pwd)"
           echo "$(ls -l)"
+          echo "-- end"
       - name: Make Gradle executable
         run: chmod +x ./gradlew
       - name: Build with Gradle
