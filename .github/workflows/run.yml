@@ -25,8 +25,13 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
           restore-keys: |
             ${{ runner.os }}-gradle-
+  build:
+    needs: setup
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
       - name: Build with Gradle
-        run: ./gradlew build
+        run: ./gradlew assembleDebug
   danger:
     needs: setup
     runs-on: ubuntu-latest
