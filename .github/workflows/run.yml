@@ -34,6 +34,9 @@ jobs:
           echo "-- start"
           echo "$(pwd)"
           echo "$(ls -l)"
+          echo "--"
+          echo "$(ls -l .)"
+          echo "$(ls -l ./gradlew)"
           echo "-- end"
       - name: Make Gradle executable
         run: chmod +x ./gradlew
